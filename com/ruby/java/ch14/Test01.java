@@ -57,6 +57,7 @@ public class Test01 {
 				System.out.println("선언, 생성, 호출을 한번에 처리");
 			}
 		}).print(); // 선언, 생성, 호출을 한번에 처리
+		// 객체가 만들어지면 . 찍을 수 있음. 호출 -> .print()
 
 		MyInterface mi2 = test2();
 		mi2.print(); // test2() 메서드에서 반환된 MyInterface

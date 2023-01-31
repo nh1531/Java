@@ -1,4 +1,5 @@
 //2장 스트링 배열 정렬 merge
+
 package datastructure123;
 //1차 수업 - 2번째 코딩 실습
 //중복이 없는 리스트를 merge하는 버젼
@@ -12,14 +13,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Collections;
-import java.util.Iterator;
-//10장 Collection, Test01, Test02를 사용
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Collections;
+import java.util.Comparator;
 public class ArrListMerge2 {
 //string 정렬, binary search 구현
 //1단계: string, 2단계: string 객체,  Person 객체들의 list\
@@ -83,6 +78,29 @@ public class ArrListMerge2 {
 			for (String city : sarray2)
 				System.out.print(city + " ");
 			System.out.println("+++++++");
+			
+			//방법1
+			// 배열 람다식 정렬
+			Arrays.sort(sarray1, (a,b) -> a.compareTo(b)); //Fruit에 compareTo()가 있어도 람다식 우선 적용
+			
+		 	//방법2
+			Arrays.sort(sarray1, new Comparator<String>() {
+			      @Override
+			      public int compare(String a1, String a2) {
+			    	  return a1.compareTo(a2);
+			      }
+			   });
+			   
+			//방법3
+			// <? super T > 
+			// <? extends T>
+		    Comparator<String> cc1 = new Comparator<String>() {//익명클래스 사용 
+		        public int compare(String u1, String u2) {
+		          return u1.compareTo(u2);
+		        }
+		      };  
+		      Arrays.sort(sarray1,cc1);
+		      
 			// file1에서 read하여 list1.add()한다.
 			// 배열을 list로 만드는 방법
 			// 방법1:
@@ -110,13 +128,37 @@ public class ArrListMerge2 {
 			list2 = removeDuplicate(list2);
 
 
-			System.out.print("\n" + "list1******");
+			System.out.print("\n" + "중복제거 후 list1******");
 			for (String city : list1)
 				System.out.print(city + " ");
-			System.out.print("\n" + "list2******");
+			System.out.print("\n" + "중복제거 후 list2******");
 			for (String city : list2)
 				System.out.print(city + " ");
 			ArrayList<String> list3 = new ArrayList<String>();
+			
+			// list를 사용하여 merge
+			int ix = 0, iy = 0;
+			while( ix < list1.size() && iy < list2.size() ) {
+				if( list1.get(ix).compareTo(list2.get(iy)) < 0 ) {
+					list3.add(list1.get(ix++));
+				} else if(list1.get(ix).compareTo(list2.get(iy)) > 0) {
+					list3.add(list2.get(iy++));
+				} else {
+					// merge 2개중에 하나만 들어가고 나머지는 ++해서 다음걸로 넘어감
+					list3.add(list2.get(iy++));
+					ix++;
+				}
+			}
+			// list1이 다 돌아갔는데 list2가 남아있는 경우(list 1개가 먼저 끝남) while 루프 빠져나옴. 예외처리
+			while ( ix < list1.size() ) {
+				list3.add(list1.get(ix++));
+				
+			}
+			while ( iy < list2.size() ) {
+				list3.add(list2.get(iy++));
+				
+			}
+			
 			//--------------------- array version: merge에 중복 제거하면 정상 동작함 
 			// 배열 -> list , list -> 배열 . 둘 다 가능해야 함
 			String [] sl1 = new String[list1.size()];
@@ -126,7 +168,7 @@ public class ArrListMerge2 {
 			// list -> 배열 : .toArray
 			sl1 = list1.toArray(sl1);
 			sl2 = list2.toArray(sl2);
-			System.out.println();
+			System.out.println("배열 출력");
 			for (String city : sl1)
 				System.out.print(city + " ");
 			System.out.println();

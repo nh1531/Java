@@ -1,3 +1,5 @@
+// 3장객체배열검색
+
 package datastructure123;
 
 import java.util.ArrayList;
@@ -23,8 +25,20 @@ class Fruit implements Comparable<Fruit> {
 	    }
 
 		@Override
+		// 추상 method
+		// compareTo 직접 부르지 않아도 호출됨
 		public int compareTo(Fruit o) {
-		//구현할 부분
+			// this는 객체
+			//구현할 부분 : 이름으로 비교하고 이름이 같으면 가격까지 비교
+			if(this.name.compareTo(o.name) > 0) {
+				return 1;
+			} else if(this.name.compareTo(o.name) < 0) {
+				return -1;
+			} else {
+				return 0;
+			}
+			
+		
 		}
 	public int getPrice() {
 		return price;
@@ -80,8 +94,9 @@ public class ObjectArraySort {
   for ( Fruit city: arr)
   	System.out.print(" " + city);
   	// 람다식 
-	Arrays.sort(arr, (a,b) -> a.getPrice() - b.getPrice()); //Fruit에 compareTo()가 있어도 람다식 우선 적용
-
+	//Arrays.sort(arr, (a,b) -> a.getPrice() - b.getPrice()); //Fruit에 compareTo()가 있어도 람다식 우선 적용 (람다식 14장)
+  	Arrays.sort(arr);
+  	
 //  int count = arr.length;
 //  for (int i = 0; i < count; i++)
 //  	for (int j = i +1; j < count; j++) {
@@ -126,7 +141,7 @@ public class ObjectArraySort {
   for ( Fruit city: lst3)
   	System.out.print(city+ " ");
   Fruit newFruit = new Fruit("참외", 100);
-  //binary search
+  //*** binary search
   Comparator<Fruit> cc = new Comparator<Fruit>() {//익명클래스 사용 
       public int compare(Fruit u1, Fruit u2) {
         return u1.compareTo(u2);
@@ -152,9 +167,20 @@ public class ObjectArraySort {
 	System.out.println("\nbinSearch() 조회결과:" + lst3.get(result2));
 	*/
 	}
-	// 교재 109 페이지 참조하여 구현
+	// 교재 113,115 페이지 참조하여 구현
 	static int binSearch(Fruit[]a, int n, Fruit f) {
-	//구현할 부분
+	//구현할 부분 if문 대신 compareTo 사용
+		int pl = 0;
+		int pr = n - 1;
+		
+		do {
+			int pc = (pl + pr) / 2 ;
+			if(a[pc].compareTo(f) == 0) return pc;
+			else if (a[pc].compareTo(f) < 0) pl = pc + 1;
+			else pr = pc - 1;
+		} while (pl <= pr);
+		
+		return -1;
 	}
 }
 
