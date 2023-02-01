@@ -1,6 +1,6 @@
 //2장 스트링 배열 정렬 merge
 
-package datastructure123;
+package 자료구조123;
 //1차 수업 - 2번째 코딩 실습
 //중복이 없는 리스트를 merge하는 버젼
 

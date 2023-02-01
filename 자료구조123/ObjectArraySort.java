@@ -1,6 +1,5 @@
 // 3장객체배열검색
-
-package datastructure123;
+package 자료구조123;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,11 +27,12 @@ class Fruit implements Comparable<Fruit> {
 		// 추상 method
 		// compareTo 직접 부르지 않아도 호출됨
 		public int compareTo(Fruit o) {
+			System.out.println("this = " + this.name + "o = " + o.name);
 			// this는 객체
 			//구현할 부분 : 이름으로 비교하고 이름이 같으면 가격까지 비교
-			if(this.name.compareTo(o.name) > 0) {
+			if(this.name.compareTo(o.name) > 0) 
 				return 1;
-			} else if(this.name.compareTo(o.name) < 0) {
+			else if(this.name.compareTo(o.name) < 0) {
 				return -1;
 			} else {
 				return 0;
@@ -135,37 +135,45 @@ public class ObjectArraySort {
 	Iterator<Fruit> iter2 = lst2.iterator();
 	Fruit data1 = iter1.next();
 	Fruit data2 = iter2.next();
+	 if (data1.compareTo(data2)> 0)
+		 System.out.println("++++++++++++++");
   	//구현할 부분 (이터레이터 사용해서 lst3 구현)
 	System.out.println();
   System.out.println("merge:: ");
   for ( Fruit city: lst3)
   	System.out.print(city+ " ");
   Fruit newFruit = new Fruit("참외", 100);
-  //*** binary search
+  /*** binary search
   Comparator<Fruit> cc = new Comparator<Fruit>() {//익명클래스 사용 
       public int compare(Fruit u1, Fruit u2) {
         return u1.compareTo(u2);
       }
     };
-   int res = cc.compare(data1, newFruit);
-   if (res > 0)
-  	 System.out.println("\ndata1 > newFruit\n");
-    /*
+    */
+  // int res = cc.compare(data1, newFruit);
+   System.out.println("data1 = "+ data1);
+   //System.out.println("res = " + res);
+   //if (res < 0)
+  	// System.out.println("\ndata1 > newFruit\n");
+    //*
   System.out.println();
   // 비교연산 cc
-  int result = Collections.binarySearch(lst3, newFruit, cc);
-		System.out.println("\nCollections.binarySearch() 조회결과::" + lst3.get(result));
-	*/
+  int result = Collections.binarySearch(lst3, newFruit);
+	if (result > 0)	System.out.println("\nCollections.binarySearch() 조회결과::" + lst3.get(result));
+	//*/
 
 	Fruit [] fa = new Fruit[lst3.size()];
 	// .toArray 배열 만듦 
 	fa = lst3.toArray(fa);
-  int result3 = Arrays.binarySearch(fa, newFruit, cc);
-	System.out.println("\nArrays.binarySearch() 조회결과::" + lst3.get(result3));
+  int result3 = Arrays.binarySearch(fa, newFruit);
+  System.out.println("result3 = " + result3);
+	
+  System.out.println("\nArrays.binarySearch() 조회결과::" + lst3.get(result3));
 	/*
 	int result2 = binSearch(fa, lst3.size(), newFruit);
 	System.out.println("\nbinSearch() 조회결과:" + lst3.get(result2));
 	*/
+	
 	}
 	// 교재 113,115 페이지 참조하여 구현
 	static int binSearch(Fruit[]a, int n, Fruit f) {

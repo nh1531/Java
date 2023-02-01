@@ -1,6 +1,6 @@
 // 2장ArrayList정렬Merge
 
-package datastructure123;
+package 자료구조123;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
