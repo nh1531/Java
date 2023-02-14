@@ -1,13 +1,13 @@
 package 자료구조4_스택과큐;
-// p.148
 
 //int형 고정 길이 큐
-public class IntQueue  {
- private Point[] data;            // 큐용 배열
+
+public class IntQueue {
+ private int[] que;            // 큐용 배열
  private int capacity;         // 큐의 크기
  private int front;            // 맨 처음 요소 커서
  private int rear;             // 맨 끝 요소 커서
- //private int num;              // 현재 데이터 개수
+ private int num;              // 현재 데이터 개수
 
  //--- 실행시 예외: 큐가 비어있음 ---//
  public class EmptyIntQueueException extends RuntimeException {
@@ -21,7 +21,7 @@ public class IntQueue  {
 
  //--- 생성자(constructor) ---//
  public IntQueue(int maxlen) {
-     front = rear = 0;
+     num = front = rear = 0;
      capacity = maxlen;
      try {
          que = new int[capacity];          // 큐 본체용 배열을 생성
@@ -32,10 +32,8 @@ public class IntQueue  {
 
  
  //--- 큐에 데이터를 인큐 ---//
- public Point push(int x) throws OverflowIntQueueException {
-	 // front == rear 1)empty 2)full
-	 if((rear + 1) % capacity == front) // 원형queue
-     //if (num >= capacity)
+ public int enque(int x) throws OverflowIntQueueException {
+     if (num >= capacity)
          throw new OverflowIntQueueException();            // 큐가 가득 찼음
      que[rear++] = x;
      num++;
@@ -45,7 +43,7 @@ public class IntQueue  {
  }
 
  //--- 큐에서 데이터를 디큐 ---//
- public Point pop() throws EmptyIntQueueException {
+ public int deque() throws EmptyIntQueueException {
      if (num <= 0)
          throw new EmptyIntQueueException();            // 큐가 비어있음
      int x = que[front++];
@@ -106,5 +104,9 @@ public class IntQueue  {
              System.out.print(que[(i + front) % capacity] + " ");
          System.out.println();
      }
+ }
+ 
+ public static void main(String[] args) {
+	
  }
 }
