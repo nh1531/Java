@@ -38,9 +38,22 @@ package 자료구조5;
 
 
 public class Queen8 {
+	int x;
+	int count = 0;
+	
+	while(count =< 4) {
+		
+	}
+	
+	while(y < 4) {
+		y++;
+		
+	}
+	if(y == 4) {
+		
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
 	}
 

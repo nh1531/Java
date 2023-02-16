@@ -1,4 +1,4 @@
-package 자료구조4_스택과큐;
+package 자료구조4;
 
 //file2
 //4장 소스코드의 Point 버젼을 학습한 후에 Queue 버젼을 구현한다.

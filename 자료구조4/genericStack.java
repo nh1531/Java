@@ -1,4 +1,4 @@
-package 자료구조4_스택과큐;
+package 자료구조4;
 
 import java.lang.RuntimeException;
 import java.lang.reflect.Array;
