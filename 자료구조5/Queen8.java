@@ -1,5 +1,9 @@
 package 자료구조5;
 
+import 자료구조4.Point;
+import 자료구조4.genericStack.EmptyGenericStackException;
+import 자료구조4.genericStack.OverflowGenericStackException;
+
 //* 문제 해결형 자바 코딩 실습이 필요
 //- main()의 작성 방법 훈련 - 
 //main() {
@@ -22,38 +26,214 @@ package 자료구조5;
 //	void Push(Point p);
 //	Point Pop();
 //       }
-//       void NextMove(int[] move, int row); // current row에 대한 다음 배치 가능한 모든 column을 조사하고 move[]에 1로 설정
-//       boolean CheckMove(int currentRow, int row, int col) //currentRow에 대하여 queen을 (x,y)에 배치 가능하면 true
-//
-//      => backtracking을 stack을 이용하여 push/pop으로 해결하는 것을 보이는 것임
-//
-//  -> 가로, 세로, 대각선에 대한 충돌 체크 함수 코딩
-//   boolean CheckMove(x,y) {
-//	checkRow(x);
-//	checkCol(y);
-//	checkDiagSW(x,y); //x++, y-- or x--, y++ where 0<= x,y <= 7       대각선 sw 
-//	checkDiagSE(x,y); //x++, y++ or x--, y--                          대각선 se 
-//   }
 
+class Point {
+	private int ix;
+	private int iy;
 
+	public Point(int x, int y) {
+		ix = x;
+		iy = y;
+	}
+
+	public String toString() {
+		return "<" + ix + ", " + iy + ">";
+	}
+
+	public int getX() {
+		return ix;
+	}
+
+	public int getY() {
+		return iy;
+	}
+
+	public void setX(int x) {
+		ix = x;
+	}
+
+	public void setY(int y) {
+		iy = y;
+	}
+}
+
+class Stack {
+	// --- 실행시 예외: 스택이 비어있음 ---//
+	// generic class는 Throwable을 상속받을 수 없다 - 지원하지 않는다
+	public class EmptyGenericStackException extends Exception {
+		private static final long serialVersionUID = 1L;
+
+		public EmptyGenericStackException() {
+			super();
+		}
+	}
+
+	// --- 실행시 예외: 스택이 가득 참 ---//
+	public class OverflowGenericStackException extends RuntimeException {
+		public OverflowGenericStackException() {
+		}
+	}
+
+	private Point data[]; // 스택용 배열
+	// private List<T> data;
+	private int capacity; // 스택의 크기
+	private int top; // 스택 포인터
+
+//--- 생성자(constructor) ---//
+	public Stack(int capacity) {
+		top = 0;
+		this.capacity = capacity;
+		// this.data = new T[capacity]; // 스택 본체용 배열을 생성
+		try {
+			data = new Point[capacity];
+		} catch (OutOfMemoryError e) {
+			capacity = 0;
+		}
+	}
+
+//--- 스택에 x를 푸시 ---//
+	public Point push(Point x) throws OverflowGenericStackException {
+		System.out.println("top = " + top + "capacity = " + capacity);
+		if (top >= capacity)
+			throw new OverflowGenericStackException();
+		return data[top++] = x;
+
+	}
+
+//--- 스택에서 데이터를 팝(정상에 있는 데이터를 꺼냄) ---//
+	public Point pop() throws EmptyGenericStackException {
+		if (top <= 0)
+			throw new EmptyGenericStackException();
+		return data[--top];
+	}
+
+//--- 스택에서 데이터를 피크(peek, 정상에 있는 데이터를 들여다봄) ---//
+	public Point peek() throws EmptyGenericStackException {
+		if (top <= 0)
+			throw new EmptyGenericStackException();
+		return data[top - 1];
+	}
+
+//--- 스택을 비움 ---//
+	public void clear() {
+		top = 0;
+	}
+
+//--- 스택에서 x를 찾아 인덱스(없으면 –1)를 반환 ---//
+	public int indexOf(Point x) {
+		for (int i = top - 1; i >= 0; i--) // 꼭대기 쪽부터 선형 검색
+			if (data[i].equals(x))
+				return i; // 검색 성공
+		return -1; // 검색 실패
+	}
+
+//--- 스택의 크기를 반환 ---//
+	public int getCapacity() {
+		return capacity;
+	}
+
+//--- 스택에 쌓여있는 데이터 갯수를 반환 ---//
+	public int size() {
+		return top;
+	}
+
+//--- 스택이 비어있는가? ---//
+	public boolean isEmpty() {
+		return top <= 0;
+	}
+
+//--- 스택이 가득 찼는가? ---//
+	public boolean isFull() {
+		return top >= capacity;
+	}
+
+//--- 스택 안의 모든 데이터를 바닥 → 꼭대기 순서로 출력 ---//
+	public void dump() {
+		if (top <= 0)
+			System.out.println("stack이 비어있습니다.");
+		else {
+			for (int i = 0; i < top; i++)
+				System.out.print(data[i] + " ");
+			System.out.println();
+		}
+	}
+}
 
 public class Queen8 {
-	int x;
-	int count = 0;
+//  void SolveQueen(int [][]d) {
+//  //코딩 완성하기 
+//}	
+	static int NextMove(int[][] d, int row){ // current row에 대한 다음 배치 가능한 모든 column을 조사하고 move[]에 1로 설정
+		int x = row;
+		int y = 0;
+		CheckMove(d, x, y);
+	}
+
+	boolean CheckMove(int currentRow, int row, int col){ // currentRow에 대하여 queen을 (x,y)에 배치 가능하면 true
 	
-	while(count =< 4) {
+	}
+
+//
+// => backtracking을 stack을 이용하여 push/pop으로 해결하는 것을 보이는 것임
+//
+//-> 가로, 세로, 대각선에 대한 충돌 체크 함수 코딩
+	boolean CheckMove(int[][] d, int x, int y) {
+	}
+
+	boolean checkRow(int x) {
+	}
+
+	boolean checkCol(int y) {
+	}
+
+	boolean checkDiagSW(int x, int y) {
+		// x++, y-- or x--, y++ where 0<= x,y <= 7 대각선 sw
+	}
+
+	boolean checkDiagSE(int x, int y) {
+		// x++, y++ or x--, y-- 대각선 se
+
+	}
+	boolean nextMove(int[][] d, int x, int y) {
 		
 	}
-	
-	while(y < 4) {
-		y++;
-		
-	}
-	if(y == 4) {
-		
+
+	public static void SolveQueen(int[][] d) {
+		int nextCol = 0;
+		int counter = 0;
+		Stack s = new Stack(50);
+		int x = 0, y = 0;
+		Point p = new Point(x, y);
+		s.push(p);
+		while (counter < 8) {
+			x++;
+			y = nextMove(d, x);
+			// 다음줄에 넣을 곳이 없으면
+			if (y == -1) {
+				p = s.pop();
+			}
+			// 넣을 수 있을 때
+			else {
+				p = s.push(p);
+
+			}
+			nextCol = NextMove(d, x);
+		}
+
 	}
 
 	public static void main(String[] args) {
+		int row = 8, col = 8;
+		int[][] data = new int[8][8];
+
+		// 배열 초기화
+		for (int i = 0; i < data.length; i++) {
+			for (int j = 0; j < data.length; j++) {
+				data[i][j] = 0;
+			}
+		}
+
+		SolveQueen(data);
 
 	}
 
