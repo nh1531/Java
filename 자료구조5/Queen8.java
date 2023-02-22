@@ -1,8 +1,6 @@
 package 자료구조5;
 
-import 자료구조4.Point;
-import 자료구조4.genericStack.EmptyGenericStackException;
-import 자료구조4.genericStack.OverflowGenericStackException;
+import 자료구조5.Stack.EmptyGenericStackException;
 
 //* 문제 해결형 자바 코딩 실습이 필요
 //- main()의 작성 방법 훈련 - 
@@ -160,64 +158,101 @@ class Stack {
 }
 
 public class Queen8 {
-//  void SolveQueen(int [][]d) {
-//  //코딩 완성하기 
-//}	
-	static int NextMove(int[][] d, int row){ // current row에 대한 다음 배치 가능한 모든 column을 조사하고 move[]에 1로 설정
-		int x = row;
-		int y = 0;
-		CheckMove(d, x, y);
+	int r = 8;
+	int c = 8;
+	int [][] arr = new int [r][c];
+	
+	
+	static int NextMove(int[][] d, int x, int y){ // current row에 대한 다음 배치 가능한 모든 column을 조사하고 move[]에 1로 설정
+		while ( y < d.length) { 
+		 if (CheckMove(d,x,y)) return y;
+		 y++;
+		}
+		
+		return -1;
 	}
 
-	boolean CheckMove(int currentRow, int row, int col){ // currentRow에 대하여 queen을 (x,y)에 배치 가능하면 true
-	
+
+	static boolean CheckMove(int [][] d, int x, int y){ // currentRow에 대하여 queen을 (x,y)에 배치 가능하면 true
+		if(!checkRow(d, x))
+			return false;
+		if(!checkCol(y))
+			return false;
+		if (!checkDiagSW(x, y))
+			return false;
+		if (!checkDiagSE(x, y))
+			return false;
+		
+		return true;
 	}
 
 //
 // => backtracking을 stack을 이용하여 push/pop으로 해결하는 것을 보이는 것임
 //
 //-> 가로, 세로, 대각선에 대한 충돌 체크 함수 코딩
-	boolean CheckMove(int[][] d, int x, int y) {
+	//boolean CheckMove(int[][] d, int x, int y) {
+	//}
+
+	static boolean checkRow(int [][] d, int x) {
+		for (int i = 0; i < x; i++) {
+			if (d[x][i] == 1)
+				return false;
+		}
+		return true;
 	}
 
-	boolean checkRow(int x) {
+	static boolean checkCol(int [][] d, int y) {
+		for (int i = 0; i < y; i++) {
+			if (d[i][y] == 1)
+				return false;
+		}
+		return true;
 	}
 
-	boolean checkCol(int y) {
-	}
-
-	boolean checkDiagSW(int x, int y) {
+	static boolean checkDiagSW(int x, int y) {
 		// x++, y-- or x--, y++ where 0<= x,y <= 7 대각선 sw
+		while() {
+			
+		}
+		while() {
+			
+		}
+		return true;
 	}
 
-	boolean checkDiagSE(int x, int y) {
+	static boolean checkDiagSE(int x, int y) {
 		// x++, y++ or x--, y-- 대각선 se
-
+		return true;
 	}
-	boolean nextMove(int[][] d, int x, int y) {
-		
-	}
+	
 
 	public static void SolveQueen(int[][] d) {
 		int nextCol = 0;
 		int counter = 0;
+		Point p = new Point(x, y);
 		Stack s = new Stack(50);
 		int x = 0, y = 0;
-		Point p = new Point(x, y);
 		s.push(p);
-		while (counter < 8) {
-			x++;
-			y = nextMove(d, x);
+		while (x < 8) {
+			x++;y = 0;
+			y = NextMove(d, x, y);
 			// 다음줄에 넣을 곳이 없으면
 			if (y == -1) {
-				p = s.pop();
+				
+				try {
+					p = s.pop();
+				} catch (EmptyGenericStackException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+		        }
 			}
 			// 넣을 수 있을 때
 			else {
+				
 				p = s.push(p);
-
+				//OverflowGenericStackException
 			}
-			nextCol = NextMove(d, x);
+			nextCol = NextMove(d, x, y);
 		}
 
 	}
