@@ -3,7 +3,7 @@ package 자료구조5;
 //public class Maze {
 //}
 
-struct items {
+class items {
 	int x, y, dir;
 };
 
@@ -12,10 +12,11 @@ ostream& operator<<(ostream& os, items& item)
 	return os << item.x << "," << item.y << "," << item.dir;
 }
 
-struct offsets {
+class offsets {
 	int a, b;
 };
 
+int[] directions
 enum directions { N, NE, E, SE, S, SW, W, NW };
 offsets moves[8];
 int maze[100][100];
@@ -61,8 +62,12 @@ void path(int m, int p)
 	}
 	cout << "no path in maze " << endl;
 }
-void main() {
-	int input[12][15] = {
+
+ public static void main(String[] args) {
+	 
+	 
+	 
+	int[][] input = {
 	{ 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1 },
 	{ 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1 },
 	{ 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1 },
@@ -74,17 +79,25 @@ void main() {
 	{ 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
 	{ 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
 	{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
-	{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 },
+	{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }
 	};
 
-	moves[N].a = -1; moves[N].b = 0;
-	moves[NE].a = -1; moves[NE].b = 1;
-	moves[E].a = 0; moves[E].b = 1;
-	moves[SE].a = 1; moves[SE].b = 1;
-	moves[S].a = 1; moves[S].b = 0;
-	moves[SW].a = 1; moves[SW].b = -1;
-	moves[W].a = 0; moves[W].b = -1;
-	moves[NW].a = -1; moves[NW].b = -1;
+	moves[N].a = -1; 
+	moves[N].b = 0;
+	moves[NE].a = -1; 
+	moves[NE].b = 1;
+	moves[E].a = 0; 
+	moves[E].b = 1;
+	moves[SE].a = 1; 
+	moves[SE].b = 1;
+	moves[S].a = 1; 
+	moves[S].b = 0;
+	moves[SW].a = 1; 
+	moves[SW].b = -1;
+	moves[W].a = 0; 
+	moves[W].b = -1;
+	moves[NW].a = -1; 
+	moves[NW].b = -1;
 
 
 	for (int i = 0; i < 14; i++) {
@@ -99,8 +112,7 @@ void main() {
 
 		}
 	}
-	for (int i = 0; i <= 13; i++)
-	{
+	for (int i = 0; i <= 13; i++){
 		for (int j = 0; j <= 16; j++)
 			cout << maze[i][j] << " ";
 		cout << endl;
