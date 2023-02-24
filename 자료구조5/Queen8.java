@@ -55,7 +55,7 @@ class Point {
 	}
 }
 
-class Stack {
+class MyStack {
 	// --- 실행시 예외: 스택이 비어있음 ---//
 	// generic class는 Throwable을 상속받을 수 없다 - 지원하지 않는다
 	public class EmptyGenericStackException extends Exception {
@@ -78,7 +78,7 @@ class Stack {
 	private int top; // 스택 포인터
 
 //--- 생성자(constructor) ---//
-	public Stack(int capacity) {
+	public MyStack(int capacity) {
 		top = 0;
 		this.capacity = capacity;
 		// this.data = new T[capacity]; // 스택 본체용 배열을 생성

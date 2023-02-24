@@ -1,126 +1,131 @@
 package 자료구조5;
-
-//public class Maze {
-//}
+import java.util.Stack;
 
 class items {
-	int x, y, dir;
+	int x, y;
+	int dir;
+
+	public items(int x, int y, int dir) {
+		this.x = x;
+		this.y = y;
+		this.dir = dir;
+	}
 };
 
-ostream& operator<<(ostream& os, items& item)
-{
-	return os << item.x << "," << item.y << "," << item.dir;
-}
-
-class offsets {
+class offsets { // -1, 0, 1 값
 	int a, b;
-};
+}
 
-int[] directions
-enum directions { N, NE, E, SE, S, SW, W, NW };
-offsets moves[8];
-int maze[100][100];
-int mark[100][100];
+public class Maze {
 
-void path(int m, int p)
+	static offsets[] moves = new offsets[8];
+	static int maze[][] = new int[100][100];
+	static int[][] mark = new int[100][100];
+
+	static void path(int m, int p) {
+
 // Output a path (if any) in the maze; rows is m, cols is p;
-{
-	//start at (1,1)
-	mark[1][1] = 1;
-	Stack<items> stack(m * p);
-	items temp;
-	temp.x = 1; temp.y = 1; temp.dir = E;
-	stack.Push(temp);
 
-	while (!stack.IsEmpty()) // stack not empty
-	{
-		temp = stack.Pop(); // unstack
-		int i = temp.x; int j = temp.y; int d = temp.dir;
-		while (d < 8) // moves forward
+		mark[1][1] = 1;
+		Stack<items> stack = new Stack<>();
+		items temp = new items(0, 0, 0);
+		temp.x = 1;
+		temp.y = 1;
+		temp.dir = 2; // E
+		stack.push(temp);
+
+		while (!stack.isEmpty()) // stack not empty
 		{
-			//outFile << i << " " << j << " " << d << endl;
-			int g = i + moves[d].a;
-			int h = j + moves[d].b;
-			if ((g == m) && (h == p)) { // reached exit
-										// output path
-				cout << stack;
+			temp = stack.pop(); // unstack
+			int i = temp.x;
+			int j = temp.y;
+			int d = temp.dir;
+			while (d < 8) // moves forward
+			{
+				// outFile << i << " " << j << " " << d << endl;
+				int g = i + moves[d].a;
+				int h = j + moves[d].b;
+				if ((g == m) && (h == p)) { // reached exit
+											// output path
+					/// cout << stack;
 
-				cout << "the term near the exit: " << i << " " << j << endl;
-				cout << "exit: " << m << " " << p << endl;
-				return;
+					System.out.println("the term near the exit: ");
+					// cout << "the term near the exit: " << i << " " << j << endl;
+					// cout << "exit: " << m << " " << p << endl;
+					return;
+				}
+				if ((maze[g][h] == 0) && (mark[g][h]) == 0) { // new position
+					mark[g][h] = 1;
+					// push the old temp to the stack, but the direction changes.
+					// Because the neighbor in the direction of d has been checked.
+					temp.x = i;
+					temp.y = j;
+					temp.dir = d + 1;
+					stack.push(temp); // stack it
+					i = g;
+					j = h;
+					d = 0; // N moves to (g,h)
+				} else
+					d++; // try next direction
 			}
-			if ((!maze[g][h]) && (!mark[g][h])) { // new position
-				mark[g][h] = 1;
-				//push the old temp to the stack, but the direction changes.
-				//Because the neighbor in the direction of d has been checked.
-				temp.x = i;  temp.y = j; temp.dir = d + 1;
-				stack.Push(temp); // stack it
-				i = g; j = h; d = N; // moves to (g,h)
+		}
+		// cout << "no path in maze " << endl;
+		System.out.println("no path in maze ");
+	}
+
+	public static void main(String[] args) {
+
+		int[][] input = { { 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1 },
+				{ 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1 }, 
+				{ 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1 },
+				{ 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0 }, 
+				{ 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
+				{ 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1 }, 
+				{ 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1 },
+				{ 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 }, 
+				{ 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
+				{ 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 }, 
+				{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
+				{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 } };
+
+		moves[0].a = -1;
+		moves[0].b = 0;
+		moves[1].a = -1;
+		moves[1].b = 1;
+		moves[2].a = 0;
+		moves[2].b = 1;
+		moves[3].a = 1;
+		moves[3].b = 1;
+		moves[4].a = 1;
+		moves[4].b = 0;
+		moves[5].a = 1;
+		moves[5].b = -1;
+		moves[6].a = 0;
+		moves[6].b = -1;
+		moves[7].a = -1;
+		moves[7].b = -1;
+
+		for (int i = 0; i < 14; i++) {
+			for (int j = 0; j < 17; j++) {
+				if ((i == 0) || (j == 0) || (i == 13) || (j == 16))
+					maze[i][j] = 1;
+				else {
+					maze[i][j] = input[i - 1][j - 1];
+				}
+				;
+				mark[i][j] = 0;
+
 			}
-			else d++; // try next direction
+		}
+		for (int i = 0; i <= 13; i++) {
+			for (int j = 0; j <= 16; j++)
+				// cout << maze[i][j] << " ";
+				// cout << endl;
+
+				path(12, 15);
+
+			// int end;
+			// cin >> end;
 		}
 	}
-	cout << "no path in maze " << endl;
 }
-
- public static void main(String[] args) {
-	 
-	 
-	 
-	int[][] input = {
-	{ 0, 1, 0, 0, 0, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1 },
-	{ 1, 0, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1 },
-	{ 0, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 1, 1 },
-	{ 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 0, 1, 1, 0, 0 },
-	{ 1, 1, 0, 1, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1 },
-	{ 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1 },
-	{ 0, 0, 1, 1, 0, 1, 1, 1, 0, 1, 0, 0, 1, 0, 1 },
-	{ 0, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1 },
-	{ 0, 0, 1, 1, 0, 1, 1, 0, 1, 1, 1, 1, 1, 0, 1 },
-	{ 1, 1, 0, 0, 0, 1, 1, 0, 1, 1, 0, 0, 0, 0, 0 },
-	{ 0, 0, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0 },
-	{ 0, 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0 }
-	};
-
-	moves[N].a = -1; 
-	moves[N].b = 0;
-	moves[NE].a = -1; 
-	moves[NE].b = 1;
-	moves[E].a = 0; 
-	moves[E].b = 1;
-	moves[SE].a = 1; 
-	moves[SE].b = 1;
-	moves[S].a = 1; 
-	moves[S].b = 0;
-	moves[SW].a = 1; 
-	moves[SW].b = -1;
-	moves[W].a = 0; 
-	moves[W].b = -1;
-	moves[NW].a = -1; 
-	moves[NW].b = -1;
-
-
-	for (int i = 0; i < 14; i++) {
-		for (int j = 0; j < 17; j++)
-		{
-			if ((!i) || (!j) || (i == 13) || (j == 16))
-				maze[i][j] = 1;
-			else {
-				maze[i][j] = input[i - 1][j - 1];
-			};
-			mark[i][j] = 0;
-
-		}
-	}
-	for (int i = 0; i <= 13; i++){
-		for (int j = 0; j <= 16; j++)
-			cout << maze[i][j] << " ";
-		cout << endl;
-	}
-	path(12, 15);
-
-	int end;
-	cin >> end;
-}
-
-
