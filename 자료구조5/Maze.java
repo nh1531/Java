@@ -1,6 +1,7 @@
 package 자료구조5;
 import java.util.Stack;
 
+
 class items {
 	int x, y;
 	int dir;
@@ -42,21 +43,18 @@ public class Maze {
 			int d = temp.dir;
 			while (d < 8) // moves forward
 			{
-				// outFile << i << " " << j << " " << d << endl;
 				int g = i + moves[d].a;
 				int h = j + moves[d].b;
 				if ((g == m) && (h == p)) { // reached exit
 											// output path
 					/// cout << stack;
 
-					System.out.println("the term near the exit: ");
-					// cout << "the term near the exit: " << i << " " << j << endl;
-					// cout << "exit: " << m << " " << p << endl;
+					System.out.println("the term near the exit: " + i + " " + j);
+					System.out.println("exit:" + m + " "+ n);
 					return;
 				}
 				if ((maze[g][h] == 0) && (mark[g][h]) == 0) { // new position
 					mark[g][h] = 1;
-					// push the old temp to the stack, but the direction changes.
 					// Because the neighbor in the direction of d has been checked.
 					temp.x = i;
 					temp.y = j;
@@ -69,7 +67,6 @@ public class Maze {
 					d++; // try next direction
 			}
 		}
-		// cout << "no path in maze " << endl;
 		System.out.println("no path in maze ");
 	}
 
@@ -118,14 +115,12 @@ public class Maze {
 			}
 		}
 		for (int i = 0; i <= 13; i++) {
-			for (int j = 0; j <= 16; j++)
-				// cout << maze[i][j] << " ";
-				// cout << endl;
+			for (int j = 0; j <= 16; j++) {				
+				System.out.println(maze[i][j] + " "); 
+			}
 
 				path(12, 15);
 
-			// int end;
-			// cin >> end;
 		}
 	}
 }
