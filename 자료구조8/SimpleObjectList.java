@@ -49,17 +49,18 @@ class SimpleObject {
 		}
 	}
 }
-class Node {
+class Node1 {
 	SimpleObject data;
 	Node link;
-	public Node(int element) {
+	public Node1(int element) {
 		link = null;
 	}
 }
 
-class LinkedList {
+class LinkedList1 {
 	Node first;
-	public LinkedList() {
+	
+	public LinkedList1() {
 		first = null;
 	}
 	public int Delete(SimpleObject element) //delete the element
@@ -67,17 +68,32 @@ class LinkedList {
 
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
+		Node p = first, q = null;
+		if(p==null) {
+			System.out.print("리스트 없음");
+		}
+		
+		while(p != null) {
+			System.out.print(p.data + " ");
+			p = p.link;
+		}
 
 	}
 	public void Add(SimpleObject element) //임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다 
 	{
+		Node1 newNode = new Node(element);
+		Node p = first, q = null;
+		while(p!=null) {
+			
+			
+		}
 
 	}
 	public boolean Search(SimpleObject data) { // 전체 리스트를 순서대로 출력한다.
 		return true;
 	}
 }
-public class Test8_Test_SimpleObjectList {
+public class SimpleObjectList {
 
 	 enum Menu {
 	        Add( "삽입"),
@@ -117,7 +133,7 @@ public class Test8_Test_SimpleObjectList {
 	            }
 	            System.out.print(" : ");
 	            key = sc.nextInt();
-	        } while (key < Menu.Insert.ordinal() || 
+	        } while (key < Menu.Add.ordinal() || 
 	                                            key > Menu.Exit.ordinal());
 	        return Menu.MenuAt(key);
 	    }
@@ -127,7 +143,7 @@ public class Test8_Test_SimpleObjectList {
 		System.out.println("Linked List");
 		LinkedList l = new LinkedList();
 		Scanner sc = new Scanner(System.in);
-		SimpleObject data = 0;
+		SimpleObject data = null;
     System.out.println("inserted");
 	     l.Show();		
 	        do {
@@ -157,6 +173,5 @@ public class Test8_Test_SimpleObjectList {
 	        } while (menu != Menu.Exit);
 	    }
 }
-
 
 

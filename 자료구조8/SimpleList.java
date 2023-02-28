@@ -24,14 +24,17 @@ class LinkedList {
 
 	public boolean Delete(int element) { // delete the element
 
-		//Node newNode = new Node(element);
 		Node p = first, q = null;
 		while (p != null) {
-			if(p.data == element) { // 삭제				
+			if(p.data == element) { // 삭제			
+				if(q == null) {
+					first=p.link;
+					return true;
+				}
 				q.link = p.link;
 			}
 			else if(p.data < element) {
-				q =p;
+				 q = p;
 				 p = p.link; 
 			}
 			
@@ -46,8 +49,10 @@ class LinkedList {
 			System.out.print("리스트 없음");
 		}
 		
-		while(p != null)
-			System.out.print(p.data);
+		while(p != null) {
+			System.out.print(p.data + " ");
+			p = p.link;
+		}
 		
 	}
 
@@ -74,23 +79,25 @@ class LinkedList {
 					// insert
 					q.link = newNode;
 					break;
-				}
+				}			
 			}
 
 		}
 	}
 
 	public boolean Search(int data) { // 전체 리스트를 순서대로 출력한다.
-		Node newNode = new Node(data);
 		Node p = first, q = null;
 		while(p != null) {
-			
+			if(data == p.data) {
+				return true;
+			}
+			p = p.link;
 		}
-		
-		return true;
+		return false;
 	}
+	
 }
-	public class Chap8_Test_SimpleList {
+	public class SimpleList {
 		enum Menu {
 			Add("삽입"), Delete("삭제"), Show("인쇄"), Search("검색"), Exit("종료");
 
