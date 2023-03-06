@@ -69,24 +69,28 @@ class Tree {
 		TreeNode p = root;
 		TreeNode q = null;
 		int branch = 0;
-		if(p == null) root = new TreeNode(x);
+		TreeNode newNode =  new TreeNode(x); 
+		
+		if(p == null) root = newNode;
 		while(p != null) {
 			if(x < p.data) {
+				q = p;
 				p = p.LeftChild;
-				branch = 1;
+				branch = 1; 
 			}
 			else if (x > p.data) {
+				q = p;
 				p = p.RightChild;
 				branch = 2;
 			}
-			else // 같을 때
+			else // 같을 때 p.data == x
 				return false;
 		}
 		if(branch == 1) {
-			q.LeftChild = new TreeNode();
+			q.LeftChild = newNode;
 		}
 		if(branch == 2) {
-			q.RightChild = new TreeNode();
+			q.RightChild = newNode;
 		}
 		return true;
 	}
@@ -95,12 +99,26 @@ class Tree {
 		// p = p.link;
 		TreeNode p = root, q = null;
 		int branchMode = 0; //1은 left, 2는 right
+		
 	
 		return false;
 		
 	}
 	boolean search(int num) {
-		return true;
+		TreeNode p = root;
+		TreeNode q = null;
+		while(p != null) {
+			if(num == p.data) {
+				return true;
+			}
+			else if(num < p.data) {
+				p = p.LeftChild;
+			}
+			else
+				p = p.RightChild;
+		}
+		return false;
+		
 	}
 }
 public class BinaryTree_int {
