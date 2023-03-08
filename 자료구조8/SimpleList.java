@@ -14,7 +14,7 @@ class Node {
 		data = element;
 	}
 }
-
+/*
 class LinkedList {
 	Node first;
 
@@ -175,3 +175,4 @@ class LinkedList {
 			} while (menu != Menu.Exit);
 		}
 	}
+*/

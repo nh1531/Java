@@ -8,8 +8,6 @@ import java.util.Scanner;
 //리스트 객체들은 이름 순서로 하고 이름이 같으면 회원번호 순서로 정렬한다.
 
 class SimpleObject {
-	static final int NO = 1; // 번호를 읽어 들일까요?
-	static final int NAME = 2; // 이름을 읽어 들일까요?
 
 	private String no; // 회원번호
 	private String name; // 이름
@@ -19,19 +17,10 @@ class SimpleObject {
 		return "(" + no + ") " + name;
 	}
 
-	// --- 데이터를 읽어 들임 ---//
-	void scanData(String guide, int sw) {
-		System.out.println(guide + "할 데이터를 입력하세요."+ sw);
-		
-		Scanner stdIn = new Scanner(System.in);
-		if ((sw & NO) == NO) { //& 는 bit 연산자임 
-			System.out.print("번호: ");
-			no = stdIn.next();
-		}
-		if ((sw & NAME) == NAME) {
-			System.out.print("이름: ");
-			name = stdIn.next();
-		}
+	// 생성자
+	public SimpleObject(String no, String name) {
+		this.no = no;
+		this.name = name;
 	}
 
 	// --- 회원번호로 순서를 매기는 comparator ---//
@@ -67,7 +56,7 @@ class LinkedList1 {
 	public LinkedList1() {
 		first = null;
 	}
-	public boolean Delete(SimpleObject element) //delete the element
+	public boolean Delete(SimpleObject element, Comparator<? super SimpleObject> c) //delete the element
 	{
 		Node1 p = first, q = null;
 		while (p != null) {
@@ -78,7 +67,7 @@ class LinkedList1 {
 				}
 				q.link = p.link;
 			}
-			else if (p.data < element) {
+			else if (c.compare(p.data, element) < 0) {
 				 q = p;
 				 p = p.link; 
 			}
@@ -87,29 +76,55 @@ class LinkedList1 {
 		return false;
 	}
 	public void Show() { // 전체 리스트를 순서대로 출력한다.
-		Node p = first, q = null;
+		Node1 p = first, q = null;
 		if(p==null) {
 			System.out.print("리스트 없음");
 		}
 		
 		while(p != null) {
-			System.out.print(p.data + " ");
+			System.out.print(p.data + " " );
 			p = p.link;
 		}
 
 	}
-	public void Add(SimpleObject element) //임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다 
+	public void Add(SimpleObject element, Comparator<? super SimpleObject> c) //임의 값을 삽입할 때 리스트가 오름차순으로 정렬이 되도록 한다 
 	{
-		Node newNode = new Node(element);
-		Node p = first, q = null;
-		while(p!=null) {
-			
-			
+		Node1 newNode = new Node1(element);
+		Node1 p = first, q = null;
+		if (p == null) { // 맨 처음
+			first = newNode;
+			return;
+		}
+		while (p != null) {
+			if (c.compare(p.data, element) > 0) {
+				newNode.link = p;
+				if (q == null)
+					first = newNode;
+				else
+					q.link = newNode;
+				break;
+			} else { // p < element
+				q = p;
+				p = p.link;
+				if (p == null) {
+					// insert
+					q.link = newNode;
+					break;
+				}			
+			}
+
 		}
 
 	}
-	public boolean Search(SimpleObject data) { // 전체 리스트를 순서대로 출력한다.
-		return true;
+	public boolean Search(SimpleObject data, Comparator<? super SimpleObject> c) { // 전체 리스트를 순서대로 출력한다.
+		Node1 p = first, q = null;
+		while(p != null) {
+			if(c.compare(p.data, data) == 0) {
+				return true;
+			}
+			p = p.link;
+		}
+		return false;
 	}
 }
 public class SimpleObjectList {
@@ -160,35 +175,49 @@ public class SimpleObjectList {
 	public static void main(String[] args) {
        Menu menu;                                // 메뉴 
 		System.out.println("Linked List");
-		LinkedList l = new LinkedList();
+		LinkedList1 l = new LinkedList1();
 		Scanner sc = new Scanner(System.in);
 		SimpleObject data = null;
     System.out.println("inserted");
 	     l.Show();		
 	        do {
 	            switch (menu = SelectMenu()) {	             
-	             case Add :                           // 머리노드 삽입
-	            	 data = new SimpleObject();
-	            	 
-	    	         l.Add(data);            
+	             case Add :
+	            	 System.out.println("회원번호를 입력하세요 : ");
+	            	 String snumber = sc.next();
+	            	 System.out.println("이름을 입력하세요 : ");
+	            	 String sname = sc.next();
+	            	 // 머리노드 삽입
+	            	 data = new SimpleObject(snumber, sname);
+	    	         l.Add(data,SimpleObject.NO_ORDER);            
 	                     break;
 	             case Delete :                          // 머리 노드 삭제
-	            	 String num1 = sc.next();
-	            	 String num2 = sc.next();
-	            	 SimpleObject so = l.Delete();
-	            	 System.out.println("삭제된 데이터는 " + num1 + num2);
+	            	 System.out.println("삭제할 번호를 입력하세요 : ");
+	            	 String snumber1  = sc.next();
+	            	 System.out.println("이름을 입력하세요 : ");
+	            	 String sname1 = sc.next();
+	            	 data = new SimpleObject(snumber1, sname1);
+	            	 l.Delete(data, SimpleObject.NO_ORDER);
+	            	 System.out.println("삭제된 데이터는 " + snumber1);
+	            	 System.out.println("삭제된 데이터는 " + sname1);
 	                    break;
 	             case Show :                           // 꼬리 노드 삭제
 	                    l.Show();
 	                    break;
-	             case Search :                           // 회원 번호 검색
-	            	String no = sc.next();
-	                boolean result = l.Search(no);
-	                    if (result == false)
-	                        System.out.println("검색 값 = " + no + "데이터가 없습니다.");
-	                    else
-	                        System.out.println("검색 값 = " + no + "데이터가 존재합니다.");
+	             case Search :                           // 회원 번호 검색          	
+	            	 System.out.println("회원번호를 입력하세요 : ");
+	            	 String snumber2 = sc.next();
+	            	 System.out.println("이름을 입력하세요 : ");
+	            	 String sname2 = sc.next();
+	            	 // 머리노드 삽입
+	            	 data = new SimpleObject(snumber2, sname2);
+	            	 l.Search(data, SimpleObject.NO_ORDER);
+	            	 if(snumber2 != null )
+	            		 System.out.println("검색 값 = " + snumber2 + " 데이터가 존재합니다.");
+	            	 else
+                        System.out.println("검색 값 = " + snumber2 + " 데이터가 없습니다.");
 	                     break;
+	            	
 	             case Exit :                           // 꼬리 노드 삭제
 	                    break;
 	            }
