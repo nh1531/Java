@@ -14,7 +14,7 @@ class Node {
 		data = element;
 	}
 }
-/*
+
 class LinkedList {
 	Node first;
 
@@ -32,6 +32,7 @@ class LinkedList {
 					return true;
 				}
 				q.link = p.link;
+				return true;
 			}
 			else if(p.data < element) {
 				 q = p;
@@ -142,16 +143,19 @@ class LinkedList {
 			Scanner sc = new Scanner(System.in);
 			int data = 0;
 			System.out.println("inserted");
+			int num = 0;
 			l.Show();
 			do {
 				switch (menu = SelectMenu()) {
 				case Add: // 머리노드 삽입
-					double d = Math.random();
-					data = (int) (d * 50);
-					l.Add(data);
+					System.out.print("\n입력값::");
+					//double d = Math.random();
+					//data = (int) (d * 50);
+					num = sc.nextInt();
+					l.Add(num);
 					break;
 				case Delete: // 머리 노드 삭제
-					int num = sc.nextInt();
+					num = sc.nextInt();
 					boolean result = l.Delete(num);
 					if (result)
 						System.out.println("삭제된 데이터는 " + num);
@@ -175,4 +179,3 @@ class LinkedList {
 			} while (menu != Menu.Exit);
 		}
 	}
-*/
